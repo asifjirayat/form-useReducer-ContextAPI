@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Form from "./components/Form.jsx";
+import Display from "./components/Display.jsx";
 
 const App = () => {
   const [inputValue, setInputValue] = useState({ name: "", password: "" });
+  const [submittedData, setSubmittedData] = useState({});
 
   const handleInputChange = (newValue, identifier) => {
     return setInputValue((prevValues) => {
@@ -14,7 +16,7 @@ const App = () => {
   };
 
   const handleSignIn = () => {
-    console.log("Handle sign in called....");
+    setSubmittedData(inputValue);
   };
 
   return (
@@ -28,15 +30,14 @@ const App = () => {
         </p>
       </header>
       <main className="max-w-xl m-auto flex flex-col flex-grow items-center justify-center">
+        {/* Form Input */}
         <Form
           inputValue={inputValue}
           onChange={handleInputChange}
           onClick={handleSignIn}
         />
-        {/* Form Input */}
-        <div className="w-md p-4 rounded text-white text-sm bg-gray-900 font-mono">
-          <p>Test</p>
-        </div>
+        {/* Form Input Display */}
+        <Display submittedData={submittedData} />
       </main>
       <footer className="flex flex-col items-center justify-center p-4 bg-stone-50">
         <p>&copy; React form with useReducer & Context API</p>
