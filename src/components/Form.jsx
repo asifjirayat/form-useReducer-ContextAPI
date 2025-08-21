@@ -1,7 +1,27 @@
+import { useContext } from "react";
+import { FormContext } from "../store/form-context.js";
 import Input from "./Input.jsx";
 import Button from "./Button.jsx";
 
-const Form = ({ inputValue, onChange, onClick }) => {
+const Form = () => {
+  const { state, dispatch } = useContext(FormContext);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    dispatch({
+      type: "UPDATE_INPUT",
+      field: name,
+      value: value,
+    });
+  };
+
+  const handleReset = () => {
+    dispatch({
+      type: "RESET_FORM",
+    });
+  };
+
   return (
     <div className="min-w-md m-8 p-4 flex flex-col gap-4 bg-stone-50 border-1 border-stone-200 rounded">
       <h2 className="text-xl text-gray-800 text-left border-b-2 border-gray-200">
@@ -10,18 +30,20 @@ const Form = ({ inputValue, onChange, onClick }) => {
       <Input
         label="Enter your name"
         required
-        value={inputValue.name}
-        onChange={(event) => onChange(event.target.value, "name")}
+        name="name"
+        value={state.name}
+        onChange={handleInputChange}
       />
       <Input
         label="Enter your password"
         required
         type="password"
-        value={inputValue.password}
-        onChange={(event) => onChange(event.target.value, "password")}
+        name="password"
+        value={state.password}
+        onChange={handleInputChange}
       />
-      <Button type="primary" onClick={onClick}>
-        Sign in
+      <Button type="primary" onClick={handleReset}>
+        Reset
       </Button>
     </div>
   );
